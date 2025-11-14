@@ -438,4 +438,20 @@ export function initTimetableSection({ qs, qsa }) {
   }
 
   init();
+
+  window.__sinarRefreshTimetable = () => {
+    selectedClassId = null;
+    selectedSectionId = null;
+    if (classSelect) classSelect.value = '';
+    if (sectionSelect) sectionSelect.value = '';
+    if (labelEl) labelEl.textContent = 'يرجى اختيار صف وشعبة.';
+    if (entryIdHidden) entryIdHidden.value = '';
+    if (notesInput) notesInput.value = '';
+    if (dayHidden) dayHidden.value = '';
+    if (periodHidden) periodHidden.value = '';
+    if (dayLabel) dayLabel.textContent = '—';
+    if (periodLabel) periodLabel.textContent = '—';
+    entriesCache = [];
+    init();
+  };
 }

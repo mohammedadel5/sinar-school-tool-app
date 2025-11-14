@@ -19,7 +19,14 @@ qsa('nav.tabs button').forEach(btn => btn.addEventListener('click', () => {
   qsa('nav.tabs button').forEach(b => b.classList.remove('active'));
   qsa('main .tab').forEach(s => s.classList.remove('active'));
   btn.classList.add('active');
-  qs(`#${btn.dataset.tab}`).classList.add('active');
+  const tabId = btn.dataset.tab;
+  const target = qs(`#${tabId}`);
+  if (target) target.classList.add('active');
+
+  // When switching to timetable, refresh its dropdowns and grid from latest data
+  if (tabId === 'timetable' && typeof window.__sinarRefreshTimetable === 'function') {
+    window.__sinarRefreshTimetable();
+  }
 }));
 
 // Initialize sections

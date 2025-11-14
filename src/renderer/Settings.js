@@ -1,3 +1,5 @@
+import { showToast } from './ui.js';
+
 export function initSettingsSection({ qs }) {
   const schoolForm = qs('#school-settings-form');
   const timetableForm = qs('#timetable-settings-form');
@@ -104,7 +106,7 @@ export function initSettingsSection({ qs }) {
       e.preventDefault();
       const name = schoolForm.school_name ? schoolForm.school_name.value.trim() : '';
       if (!name) {
-        alert('يرجى إدخال اسم المدرسة');
+        showToast('يرجى إدخال اسم المدرسة', 'warning');
         return;
       }
       try {
@@ -114,9 +116,9 @@ export function initSettingsSection({ qs }) {
         }
         const h = document.querySelector('header h1');
         if (h) h.textContent = name;
-        alert('تم حفظ بيانات المدرسة');
+        showToast('تم حفظ بيانات المدرسة', 'success');
       } catch (err) {
-        alert('حدث خطأ أثناء حفظ بيانات المدرسة');
+        showToast('حدث خطأ أثناء حفظ بيانات المدرسة', 'error');
       }
     });
   }
@@ -130,9 +132,12 @@ export function initSettingsSection({ qs }) {
         window.api.setSetting && window.api.setSetting('timetable_periods_count', String(countVal));
         const times = collectCurrentTimes().filter(p => p.index >= 1 && p.index <= countVal);
         window.api.setSetting && window.api.setSetting('timetable_periods_times', JSON.stringify(times));
-        alert('تم حفظ إعدادات الجدول');
+        showToast('تم حفظ إعدادات الجدول', 'success');
+        if (typeof window.__sinarRefreshTimetable === 'function') {
+          window.__sinarRefreshTimetable();
+        }
       } catch (err) {
-        alert('حدث خطأ أثناء حفظ إعدادات الجدول');
+        showToast('حدث خطأ أثناء حفظ إعدادات الجدول', 'error');
       }
     });
   }
