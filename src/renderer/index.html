@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تطبيق سينار لانشاء جداول المدرسة</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+</head>
+<body>
+  <header>
+    <h1>تطبيق سينار لانشاء جداول المدرسة</h1>
+  </header>
+  <nav class="tabs">
+    <button data-tab="students" class="active">الطلاب</button>
+    <button data-tab="subjects">المواد</button>
+    <button data-tab="classes">الصفوف / الشعب</button>
+    <button data-tab="teachers">المعلمين</button>
+    <button data-tab="timetable">الجدول الأسبوعي</button>
+    <button data-tab="settings">الإعدادات</button>
+  </nav>
+
+  <main>
+    <section id="students" class="tab active">
+      <h2>إدارة الطلاب</h2>
+      <input id="student-search" class="input-search" placeholder="بحث بالاسم أو الرقم" />
+      <form id="student-form">
+        <input placeholder="الاسم" name="name" required />
+        <input placeholder="الصف" name="grade" />
+        <input placeholder="الشعبة / القسم" name="section" />
+        <input placeholder="هاتف ولي الأمر" name="parent_phone" />
+        <input placeholder="تاريخ القبول" name="admission_date" type="date" />
+        <button type="submit">إضافة</button>
+      </form>
+      <table id="students-table">
+        <thead>
+          <tr>
+            <th>#</th><th>الاسم</th><th>الصف</th><th>الشعبة / القسم</th><th>الهاتف</th><th>الحالة</th><th>تاريخ القبول</th><th>إجراءات</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <section id="classes" class="tab">
+      <h2>الصفوف / الشعب</h2>
+      <div class="classes-layout">
+        <div class="classes-panel">
+          <h3>إدارة الصفوف</h3>
+          <form id="class-form">
+            <select name="stage" title="المرحلة">
+              <option value="ابتدائي">ابتدائي</option>
+              <option value="متوسط">متوسط</option>
+              <option value="إعدادي">إعدادي</option>
+              <option value="معهد">معهد</option>
+            </select>
+            <input placeholder="اسم الصف (مثال: الخامس، ثالث متوسط)" name="grade_label" />
+            <input placeholder="الفرع (اختياري)" name="branch" />
+            <select name="shift" title="الدوام">
+              <option value="">الدوام</option>
+              <option value="صباحي">صباحي</option>
+              <option value="مسائي">مسائي</option>
+            </select>
+            <button type="submit">إضافة صف</button>
+          </form>
+          <table id="classes-table">
+            <thead>
+              <tr>
+                <th>#</th><th>المرحلة</th><th>الصف</th><th>الفرع</th><th>الدوام</th><th>إجراءات</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <div class="sections-panel">
+          <h3>الشعب للصف المحدد</h3>
+          <div id="selected-class-label">لم يتم اختيار صف بعد.</div>
+          <form id="section-form">
+            <input placeholder="اسم الشعبة (مثال: أ، ب)" name="name" />
+            <input placeholder="القاعة" name="room" />
+            <input placeholder="الطاقة الاستيعابية" name="capacity" type="number" />
+            <button type="submit">إضافة شعبة</button>
+          </form>
+          <table id="sections-table">
+            <thead>
+              <tr>
+                <th>#</th><th>الشعبة</th><th>القاعة</th><th>الطاقة الاستيعابية</th><th>إجراءات</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="timetable" class="tab">
+      <h2>الجدول الأسبوعي</h2>
+      <div class="timetable-controls">
+        <div class="tt-primary-selects">
+          <select id="tt-class-select" title="الصف"></select>
+          <select id="tt-section-select" title="الشعبة"></select>
+          <span id="tt-current-label"></span>
+        </div>
+        <form id="tt-slot-form">
+          <div class="tt-slot-meta">
+            <span>اليوم: <span id="tt-day-label">—</span></span>
+            <span>الحصة: <span id="tt-period-label">—</span></span>
+          </div>
+          <input type="hidden" id="tt-day" name="day_of_week" />
+          <input type="hidden" id="tt-period" name="period_idx" />
+          <input type="hidden" id="tt-entry-id" name="entry_id" />
+          <select id="tt-subject" name="subject_id" title="المادة">
+            <option value="">اختر المادة</option>
+          </select>
+          <select id="tt-teacher" name="teacher_id" title="المعلم">
+            <option value="">اختر المعلم</option>
+          </select>
+          <input placeholder="ملاحظات (اختياري)" id="tt-notes" name="notes" />
+          <button type="submit">حفظ الحصة</button>
+          <button type="button" id="tt-clear-btn">تفريغ الحقول</button>
+          <button type="button" id="tt-delete-btn">حذف الحصة</button>
+          <button type="button" id="tt-print-btn">طباعة</button>
+        </form>
+      </div>
+      <div id="timetable-wrapper">
+        <table id="timetable-grid">
+          <thead></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="subjects" class="tab">
+      <h2>المواد</h2>
+      <form id="subject-form">
+        <input placeholder="اسم المادة" name="name" required />
+        <input placeholder="ملاحظات (اختياري)" name="notes" />
+        <button type="submit">إضافة مادة</button>
+      </form>
+      <table id="subjects-table">
+        <thead>
+          <tr>
+            <th>#</th><th>اسم المادة</th><th>ملاحظات</th><th>إجراءات</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <section id="teachers" class="tab">
+      <h2>إدارة المعلمين</h2>
+      <input id="teacher-search" class="input-search" placeholder="بحث بالاسم أو الرقم" />
+      <form id="teacher-form">
+        <input placeholder="الاسم" name="name" required />
+        <input placeholder="المادة" name="subject" list="subjects-list" />
+        <datalist id="subjects-list"></datalist>
+        <input placeholder="هاتف المعلم" name="phone" />
+        <input placeholder="تاريخ التعيين" name="hire_date" type="date" />
+        <button type="submit">إضافة</button>
+      </form>
+      <table id="teachers-table">
+        <thead>
+          <tr>
+            <th>#</th><th>الاسم</th><th>المادة</th><th>الهاتف</th><th>الحالة</th><th>تاريخ التعيين</th><th>إجراءات</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <section id="income" class="tab">
+      <h2>الإيرادات</h2>
+      <form id="income-form">
+        <input placeholder="الوصف" name="description" />
+        <input placeholder="التصنيف (رسوم/تبرعات/خدمات/أخرى)" name="income_category" />
+        <input placeholder="المبلغ" name="amount" type="number" step="0.01" required />
+        <input placeholder="التاريخ" name="date" type="date" />
+        <button type="submit">إضافة</button>
+        <button type="button" id="btn-print-income">طباعة</button>
+      </form>
+      <table>
+        <thead>
+          <tr><th>#</th><th>الوصف</th><th>التصنيف</th><th>المبلغ</th><th>التاريخ</th><th class="actions-col">إجراءات</th></tr>
+        </thead>
+        <tbody id="income-list"></tbody>
+      </table>
+    </section>
+
+    <section id="fees" class="tab">
+      <h2>الرسوم</h2>
+      <form id="fee-form">
+        <input placeholder="رقم الطالب" name="student_id" type="number" required />
+        <div id="student-name-display">
+          <small>اسم الطالب: <span id="student-name-text">—</span></small>
+        </div>
+        <input placeholder="نوع الرسم" name="fee_type" />
+        <input placeholder="رقم دفعة" name="installment_no" type="number" />
+        <input placeholder="المبلغ" name="amount" type="number" step="0.01" required />
+        <input placeholder="المبلغ المدفوع" name="paid_amount" type="number" step="0.01" />
+        <input placeholder="تاريخ الاستحقاق" name="due_date" type="date" />
+        <label><input type="checkbox" name="non_refundable" /> غير قابل للاسترداد</label>
+        <button type="button" id="btn-load-fees">عرض الرسوم</button>
+        <button type="button" id="btn-print-fees">طباعة PDF</button>
+        <button type="submit">تسجيل</button>
+      </form>
+      <div id="installment-helper" class="card">
+        <div class="title">تقسيم إلى أقساط (إنشاء عدة صفوف تلقائياً)</div>
+        <div class="grid">
+          <input placeholder="إجمالي المبلغ" name="split_total_amount" type="number" step="0.01" />
+          <input placeholder="عدد الأقساط" name="split_count" type="number" />
+          <input placeholder="تاريخ أول استحقاق" name="split_first_due" type="date" />
+          <input placeholder="فاصل الأشهر بين الأقساط" name="split_interval_months" type="number" value="1" />
+        </div>
+        <div class="actions">
+          <button type="button" id="btn-split-installments">إنشاء أقساط</button>
+        </div>
+      </div>
+      <div id="fees-list"></div>
+    </section>
+
+    <section id="expenses" class="tab">
+      <h2>المصروفات</h2>
+      <form id="expense-form">
+        <input placeholder="الوصف" name="description" />
+        <input placeholder="التصنيف (تشغيلية/رأسمالية/رواتب)" name="expense_category" />
+        <input placeholder="المبلغ" name="amount" type="number" step="0.01" />
+        <button type="submit">إضافة</button>
+        <button type="button" id="btn-print-expenses">طباعة</button>
+      </form>
+      <table id="expenses-table">
+        <thead>
+          <tr>
+            <th>#</th><th>الوصف</th><th>التصنيف</th><th>المبلغ</th><th>التاريخ</th><th class="actions-col"></th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <section id="salaries" class="tab">
+      <h2>الرواتب</h2>
+      <form id="salary-form">
+        <input placeholder="الاسم" name="staff_name" required />
+        <input placeholder="الوظيفة" name="position" />
+        <input placeholder="نوع العقد" name="contract_type" />
+        <input placeholder="دورية الدفع" name="payment_frequency" />
+        <input placeholder="المبلغ" name="amount" type="number" step="0.01" required />
+        <button type="submit">إضافة</button>
+        <button type="button" id="btn-print-salaries">طباعة</button>
+      </form>
+      <table id="salaries-table">
+        <thead>
+          <tr>
+            <th>#</th><th>الاسم</th><th>الوظيفة</th><th>نوع العقد</th><th>المبلغ</th><th>التاريخ</th><th class="actions-col"></th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <section id="reports" class="tab">
+      <h2>التقارير</h2>
+      <div class="report-actions">
+        <button id="btn-outstanding">تقرير الرسوم غير المسددة</button>
+        <button id="btn-pnl">تقرير الدخل مقابل المصروف</button>
+        <button id="btn-export-report">تصدير CSV</button>
+        <button id="btn-print-report">طباعة</button>
+      </div>
+      <pre id="report-output"></pre>
+    </section>
+
+    <section id="settings" class="tab">
+      <h2>الإعدادات</h2>
+      <div class="settings-layout">
+        <div class="card">
+  <div class="title">بيانات المدرسة</div>
+  <form id="school-settings-form">
+    <div class="school-row">
+      <label for="school_name">اسم المدرسة</label>
+      <input id="school_name" placeholder="اسم المدرسة" name="school_name" />
+    </div>
+
+    <div class="school-row">
+      <label for="school_logo">شعار المدرسة</label>
+      <input id="school_logo" type="file" name="school_logo" accept="image/*" title="اختيار شعار المدرسة" />
+    </div>
+    <div id="logo-preview">
+      <small>معاينة الشعار:</small>
+      <img id="school-logo-img" alt="school logo" />
+    </div>
+    <button type="submit">حفظ بيانات المدرسة</button>
+  </form>
+</div>
+        <div class="card">
+          <div class="title">إعدادات الجدول الأسبوعي</div>
+          <form id="timetable-settings-form">
+            <div class="tt-count-row">
+              <label for="timetable_periods_count">عدد الحصص في اليوم</label>
+              <input id="timetable_periods_count" name="timetable_periods_count" type="number" min="1" />
+            </div>
+            <div id="timetable-periods-times"></div>
+            <button type="submit">حفظ إعدادات الجدول</button>
+          </form>
+        </div>
+      </div>
+      <small>سيتم استخدام اسم المدرسة في الإيصالات والطباعة.</small>
+    </section>
+  </main>
+
+  <script type="module" src="./app.js"></script>
+</body>
+</html>

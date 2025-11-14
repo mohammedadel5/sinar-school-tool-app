@@ -1,0 +1,25 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Force Windows line endings for these files
+*.cmd text eol=crlf
+*.bat text eol=crlf
+*.ps1 text eol=crlf
+
+# Force Unix line endings for these files
+*.sh text eol=lf
+
+# Binary files that should not be modified
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.icns binary
+*.db binary
+*.sqlite binary
+*.sqlite3 binary
+*.dll binary
+*.exe binary
+*.dmg binary
+*.pkg binary

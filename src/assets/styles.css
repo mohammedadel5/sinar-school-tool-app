@@ -1,0 +1,217 @@
+* { box-sizing: border-box; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Naskh Arabic UI", sans-serif; }
+body { margin: 0; background: #f7f7f9; color: #222; }
+header { background: #2c3e50; color: #fff; padding: 12px 16px; }
+h1 { margin: 0; font-size: 22px; }
+nav.tabs { display: flex; gap: 8px; padding: 10px; background: #ecf0f1; border-bottom: 1px solid #dcdde1; }
+nav.tabs button { padding: 8px 12px; border: 1px solid #bdc3c7; background: #fff; cursor: pointer; border-radius: 6px; }
+nav.tabs button.active { background: #3498db; color: #fff; border-color: #2980b9; }
+main { padding: 16px; }
+.tab { display: none; }
+.tab.active { display: block; }
+form { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin: 8px 0 16px; }
+form input, form button, form label { padding: 8px; border: 1px solid #ccc; border-radius: 6px; }
+form button { background: #2ecc71; color: #fff; border-color: #27ae60; }
+table { width: 100%; border-collapse: collapse; background: #fff; }
+th, td { padding: 8px; border-bottom: 1px solid #eee; text-align: right; }
+th { background: #fafafa; }
+pre { background: #fff; padding: 12px; border: 1px solid #eee; border-radius: 6px; }
+
+/* Reports */
+.report-actions { display: flex; gap: 8px; margin: 8px 0 12px; }
+.report-actions button { padding: 8px 12px; border: 1px solid #bdc3c7; background: #fff; cursor: pointer; border-radius: 6px; }
+.report-actions button:hover { background: #f3f8ff; border-color: #98c7ff; }
+#report-output { background: #fff; border: 1px solid #eee; border-radius: 6px; padding: 12px; font-family: inherit; white-space: normal; }
+
+/* Toasts */
+#toast-container { position: fixed; bottom: 16px; left: 16px; display: flex; flex-direction: column; gap: 8px; z-index: 9999; }
+.toast { background: #333; color: #fff; padding: 10px 12px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); opacity: 0; transform: translateY(6px); transition: opacity .25s, transform .25s; }
+.toast.visible { opacity: 0.98; transform: translateY(0); }
+.toast.info { background: #34495e; }
+.toast.success { background: #2ecc71; }
+.toast.warning { background: #f39c12; }
+.toast.error { background: #e74c3c; }
+
+/* Confirm modal */
+#confirm-modal { position: fixed; inset: 0; z-index: 9998; }
+#confirm-modal .cm-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.35); }
+#confirm-modal .cm-dialog { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #fff; padding: 16px; width: min(90vw, 420px); border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.25); }
+#confirm-modal .cm-message { margin-bottom: 12px; font-weight: 600; }
+#confirm-modal .cm-actions { display: flex; gap: 8px; justify-content: flex-end; }
+#confirm-modal .cm-actions button { padding: 8px 12px; border: 1px solid #bdc3c7; background: #fff; cursor: pointer; border-radius: 6px; }
+#confirm-modal .cm-actions .cm-yes { background: #2ecc71; color: #fff; border-color: #27ae60; }
+
+/* Fees: installment helper styling */
+#installment-helper { background: #fff; border: 1px solid #e6e6e6; border-radius: 10px; }
+#installment-helper .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; align-items: center; }
+#installment-helper input, #installment-helper select, #installment-helper button {
+  padding: 8px; border: 1px solid #ccc; border-radius: 6px;
+}
+#installment-helper button { background: #2ecc71; color: #fff; border-color: #27ae60; cursor: pointer; }
+#installment-helper input:focus, #installment-helper select:focus { outline: 2px solid #3498db33; border-color: #3498db; }
+
+/* Replacements for inline styles in index.html */
+.input-search { margin: 6px 0; padding: 8px; border: 1px solid #ccc; border-radius: 6px; width: 100%; }
+#student-name-display { grid-column: span 2; align-self: center; }
+#installment-helper .title { font-weight: 600; margin-bottom: 8px; }
+#installment-helper .actions { margin-top: 8px; }
+#logo-preview { display: flex; align-items: center; gap: 8px; }
+#school-logo-img { max-width: 80px; max-height: 80px; object-fit: contain; display: none; }
+
+/* Watermark container hidden by default on screen */
+.print-watermark { display: none; }
+/* Hide formal print header on screen */
+.print-header { display: none; }
+.print-header .ph-logo { display: none; }
+
+@media print {
+  body { background: #fff; color: #000; }
+  header, nav.tabs { display: none !important; }
+  /* Hide report controls in print */
+  .report-actions { display: none !important; }
+  /* Hide all tabs by default when printing; show only the active one */
+  .tab { display: none !important; }
+  .tab.active { display: block !important; }
+  /* Hide the in-page title; we render a formal print header instead */
+  .tab.active > h2 { display: none !important; }
+  /* Hide form controls on print for the active tab */
+  .tab.active form { display: none !important; }
+  /* Hide installment split helper on print */
+  #installment-helper { display: none !important; }
+  /* Hide timetable controls (class/section selects and slot form) on print */
+  #timetable .timetable-controls { display: none !important; }
+  /* Ensure summary and table are visible and clean */
+  #fees .summary { margin: 8px 0; font-weight: bold; }
+  table { background: #fff; }
+  th { background: #f0f0f0; }
+  /* Avoid breaking rows across pages */
+  table, tr, td, th { page-break-inside: avoid; }
+  /* Formal print header (used by fees, timetable, income, etc.) */
+  .print-header { display: block; text-align: center; margin: 0 0 8px; }
+  .print-header .ph-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .print-header .ph-left { display: flex; align-items: center; gap: 6px; }
+  .print-header .ph-logo { display: inline-block; width: 24px; height: 24px; object-fit: contain; }
+  .print-header .ph-org { font-weight: 700; font-size: 14px; }
+  .print-header .ph-date { font-size: 12px; color: #444; }
+  .print-header img { width: 32px !important; height: 32px !important; max-width: 32px !important; max-height: 32px !important; object-fit: contain; display: inline-block; }
+  /* Hide actions column/buttons when printing */
+  .actions-col { display: none !important; }
+  /* Signature boxes and footer */
+  #fees .print-sign { margin-top: 12px; }
+  #fees .sign { display: flex; justify-content: space-between; gap: 12px; margin-top: 12px; }
+  #fees .sign .box { width: 45%; border: 1px dashed #888; padding: 12px; height: 80px; }
+  #fees .footer { margin-top: 8px; font-size: 12px; color: #555; text-align: center; }
+
+  /* Income print header/footer */
+  #income .print-header { display: block; text-align: center; margin: 0 0 8px; }
+  #income .print-footer { margin-top: 8px; font-size: 12px; color: #555; text-align: center; }
+
+  /* Watermark: show only in print, centered and faint behind content */
+  .print-watermark { display: block; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.06; z-index: -1; pointer-events: none; }
+  .print-watermark img { width: 60vw; max-width: 600px; height: auto; filter: grayscale(100%); }
+}
+
+/* Timetable settings: periods rows */
+.tt-period-setting {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.tt-period-setting span {
+  min-width: 70px;
+  font-weight: 500;
+}
+
+.tt-period-setting input[type="time"] {
+  max-width: 120px;
+}
+
+.tt-count-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.tt-count-row label {
+  min-width: 130px;
+  font-weight: 600;
+}
+
+.tt-count-row input[type="number"] {
+  max-width: 120px;
+}
+
+/* Make timetable settings form vertical, not 6-column grid */
+#timetable-settings-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+#timetable-settings-form button[type="submit"] {
+  border-radius: 6px;
+  padding-inline: 16px;
+}
+
+/* Timetable main controls (class/section + slot form) */
+.timetable-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.tt-primary-selects {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#tt-slot-form {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+}
+
+#tt-slot-form .tt-slot-meta {
+  grid-column: span 2;
+}
+
+#tt-notes {
+  grid-column: span 2;
+}
+
+/* Timetable grid empty cell hint */
+.tt-empty {
+  background: #fafafa;
+  cursor: pointer;
+}
+
+.tt-empty-hint {
+  display: inline-block;
+  font-size: 11px;
+  color: #999;
+}
+
+/* School settings rows */
+.school-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.school-row label {
+  min-width: 130px;
+  font-weight: 600;
+}
+
+.school-row input[type="text"],
+.school-row input[type="file"] {
+  max-width: 260px;
+}
+

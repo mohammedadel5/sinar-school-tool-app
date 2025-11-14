@@ -1,0 +1,22 @@
+➤ YN0000: · Yarn 4.9.2
+➤ YN0000: ┌ Resolution step
+➤ YN0085: │ + to-ico@npm:1.1.5, ajv@npm:6.12.6, arrify@npm:1.0.1, asn1@npm:0.2.6, assert-plus@npm:1.0.0, asynckit@npm:0.4.0, aws-sign2@npm:0.7.0, aws4@npm:1.13.2, and 92 more.
+➤ YN0000: └ Completed in 2s 56ms
+➤ YN0000: ┌ Fetch step
+➤ YN0013: │ 100 packages were added to the project (+ 17.56 MiB).
+➤ YN0000: └ Completed in 4s 711ms
+➤ YN0000: ┌ Link step
+➤ YN0000: └ Completed in 1s 54ms
+➤ YN0000: · Done in 7s 909ms
+
+[31m[1mInternal Error[22m[39m: Binary not found (to-ico) for root-workspace-0b6124@workspace:.
+    at tye (/Users/mac/.yarn/releases/yarn-4.9.2.cjs:189:2272)
+    at Object.cyt (/Users/mac/.yarn/releases/yarn-4.9.2.cjs:189:2803)
+    at /Users/mac/.yarn/releases/yarn-4.9.2.cjs:549:297
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async Yn.mktempPromise (/Users/mac/.yarn/releases/yarn-4.9.2.cjs:9:45514)
+    at async ew.execute (/Users/mac/.yarn/releases/yarn-4.9.2.cjs:547:4506)
+    at async ew.validateAndExecute (/Users/mac/.yarn/releases/yarn-4.9.2.cjs:94:787)
+    at async t.run (/Users/mac/.yarn/releases/yarn-4.9.2.cjs:98:3263)
+    at async C6t (/Users/mac/.yarn/releases/yarn-4.9.2.cjs:752:7977)
+    at async KR (/Users/mac/.yarn/releases/yarn-4.9.2.cjs:753:142)

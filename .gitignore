@@ -1,0 +1,49 @@
+node_modules/
+dist/
+build/*
+!build/icon.png
+!build/icon.icns
+!build/icon.ico
+!build/.gitkeep
+*.log
+.DS_Store
+/School Finance App-* 
+/.yarn/
+yarn-error.log
+.pnp.*
+
+# OS junk
+Thumbs.db
+ehthumbs.db
+Icon\r
+
+# Editor/IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Caches
+.cache/
+.eslintcache
+
+# Logs
+yarn-debug.log*
+npm-debug.log*
+debug.log*
+
+# Env files
+.env
+.env.*
+*.env
+
+# Build outputs
+out/
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Test coverage
+coverage/
+.nyc_output/
